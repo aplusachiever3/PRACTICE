@@ -1,1 +1,44 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>P6 Science Wrong Answer Coach V1</title><link rel="stylesheet" href="css/style.css"></head><body><header><div class="wrap"><h1>🧪 P6 Science Wrong Answer Coach</h1><p>Singapore Primary Science · V1 · No API required</p></div></header><main class="wrap"><div class="tabs"><button onclick="show('mark')">✍️ Mark Answer</button><button onclick="show('book')">📚 Wrong Answer Book</button><button onclick="show('stats')">📊 Progress</button></div><section id="mark"><div class="card"><h2>Mark a Question</h2><label>Question<textarea id="q" placeholder="Enter the Science question"></textarea></label><div class="grid"><label>Question Type<select id="type"><option value="mcq">MCQ</option><option value="short">Short Answer</option><option value="structured">Structured</option></select></label><label>Theme<select id="theme"><option>Diversity</option><option>Cycles</option><option>Systems</option><option>Interactions</option><option>Energy</option></select></label></div><label>Correct Answer<textarea id="correct"></textarea></label><label>Student's Answer<textarea id="student"></textarea></label><label>Keywords<input id="keywords" placeholder="evaporation, water vapour"></label><label>Marks<input id="marks" type="number" value="1" min="1"></label><button class="button" onclick="mark()">🔎 Mark Answer</button><div id="result"></div></div><div class="card"><button class="button secondary" onclick="demo()">Load Demo Question</button><p>No AI/API is used in V1. Mistakes are stored locally in this browser.</p></div></section><section id="book" class="hidden"><div class="card"><h2>📚 Wrong Answer Book</h2><div id="list"></div><button class="button secondary" onclick="clearWrong()">Clear All</button></div></section><section id="stats" class="hidden"><div class="card"><h2>📊 Progress</h2><div class="stats"><div>Marked <b id="total">0</b></div><div>Wrong <b id="wrong">0</b></div><div>Accuracy <b id="accuracy">0%</b></div></div><div id="themes"></div></div></section></main><footer>P6 Science Wrong Answer Coach V1</footer><script src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P6 Science Wrong Answer Coach</title><link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header><div class="wrap hero">
+<div><div class="badge">SINGAPORE PRIMARY SCIENCE · P6</div>
+<h1>🧪 Science Wrong Answer Coach</h1>
+<p>Practise • Check • Understand • Improve</p></div>
+<div class="hero-orbit">⚛️<span>💧</span><span>🌱</span><span>⚡</span></div>
+</div></header>
+<main class="wrap">
+<div class="tabs">
+<button onclick="show('mark')">✍️ Practice</button><button onclick="show('book')">📚 My Wrong Answers</button><button onclick="show('stats')">📊 My Progress</button>
+</div>
+<section id="mark">
+<div class="card intro"><h2>🎯 Let's fix one mistake at a time.</h2><p>Enter a question and your answer. The V1 browser marker checks MCQ answers exactly and written answers using key concepts.</p></div>
+<div class="card">
+<div class="section-title"><span class="number">01</span><div><h2>Question</h2><p>What did you get wrong?</p></div></div>
+<label>Science Question<textarea id="q" placeholder="Paste or type the question here..."></textarea></label>
+<div class="grid">
+<label>Question Type<select id="type"><option value="mcq">MCQ</option><option value="short">Short Answer</option><option value="structured">Structured</option></select></label>
+<label>MOE Theme<select id="theme"><option>Diversity</option><option>Cycles</option><option>Systems</option><option>Interactions</option><option>Energy</option></select></label>
+</div>
+<label>Correct Answer<textarea id="correct" placeholder="What is the expected answer?"></textarea></label>
+<label>Your Answer<textarea id="student" placeholder="Write exactly what you would submit in an exam..."></textarea></label>
+<div class="grid">
+<label>Key Concepts<input id="keywords" placeholder="e.g. evaporation, water vapour"></label>
+<label>Marks<input id="marks" type="number" value="1" min="1" max="20"></label>
+</div>
+<button class="button" onclick="mark()">🔎 Check My Answer</button>
+<button class="button secondary" onclick="demo()">✨ Try Demo</button>
+<div id="result"></div>
+</div>
+<div class="card tips"><h3>💡 Exam Tip</h3><p>For Science structured questions, do not just give the final answer. Include the <b>scientific concept</b> and the <b>key evidence</b> needed by the question.</p></div>
+</section>
+<section id="book" class="hidden"><div class="card"><div class="section-title"><span class="number">02</span><div><h2>📚 My Wrong Answer Book</h2><p>Every mistake stays in your browser for later review.</p></div></div><div id="list"></div><button class="button secondary" onclick="clearWrong()">Clear All</button></div></section>
+<section id="stats" class="hidden"><div class="card"><div class="section-title"><span class="number">03</span><div><h2>📊 My Progress</h2><p>Turn mistakes into stronger Science answers.</p></div></div><div class="stats"><div><span>Questions</span><b id="total">0</b></div><div><span>Wrong</span><b id="wrong">0</b></div><div><span>Accuracy</span><b id="accuracy">0%</b></div></div><div class="theme-box"><h3>Weak Areas</h3><div id="themes"></div></div></div></section>
+</main>
+<footer>🧪 P6 Science Wrong Answer Coach · V1 · No external API required</footer>
+<script src="js/app.js"></script>
+</body></html>
