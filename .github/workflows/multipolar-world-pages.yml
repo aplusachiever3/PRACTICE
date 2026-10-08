@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - "index.html"
       - "multipolar-world/**"
       - ".github/workflows/multipolar-world-pages.yml"
   workflow_dispatch:
@@ -34,7 +35,8 @@ jobs:
       - name: Prepare site
         run: |
           mkdir -p _site
-          cp -R multipolar-world/. _site/
+          cp index.html _site/index.html
+          cp -R multipolar-world/. _site/multipolar-world/
           touch _site/.nojekyll
 
       - name: Upload Pages artifact
