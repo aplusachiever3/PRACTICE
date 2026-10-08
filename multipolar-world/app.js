@@ -58,10 +58,22 @@ function initGate(){
  if(worlds.length>1)t.value=worlds[1].id;
 }
 function openGate(){
- var s=el("sourceWorld"),t=el("targetWorld");if(!s||!t)return;
- var a=worlds.find(function(w){return w.id===s.value;}),b=worlds.find(function(w){return w.id===t.value;});if(!a||!b)return;
- var r=TransformationEngine.simulate(a,b);
- if(el("gateResult"))el("gateResult").innerHTML='<div class="gate-status '+(r.success?'success':'failed')+'">'+(r.success?'🟢 GATE ENTRY SUCCESS':'🔴 GATE ENTRY FAILED')+'</div><div class="stats"><div>世界距离 <b>'+r.distance.toFixed(2)+'</b></div><div>规则差距 <b>'+r.ruleGap.toFixed(3)+'</b></div><div>兼容度 <b>'+r.compatibility+'%</b></div><div>转换能量 <b>'+r.cost+'</b></div><div>锚点稳定度 <b>'+r.anchor+'%</b></div><div>时间压力 <b>'+r.temporal+'%</b></div></div><p>🧬 '+r.form+'</p><p>🔐 '+r.reason+'</p>';
+ var s=el("sourceWorld"),t=el("targetWorld"),out=el("gateResult");
+ if(!s||!t||!out)return;
+ var a=worlds.find(function(w){return w.id===s.value;}),b=worlds.find(function(w){return w.id===t.value;});
+ if(!a||!b){out.innerHTML='<div class="gate-status failed">🔴 请先选择来源世界和目标世界。</div>';return;}
+ if(a.id===b.id){out.innerHTML='<div class="gate-status failed">🔴 来源世界和目标世界不能相同。</div>';return;}
+ try{
+   var r=TransformationEngine.simulate(a,b);
+   out.innerHTML='<div class="gate-status '+(r.success?'success':'failed')+'">'+(r.success?'🟢 世界之门开启成功':'🔴 世界之门转换失败')+'</div>'+
+   '<div class="stats"><div>世界距离 <b>'+Number(r.distance).toFixed(2)+'</b></div><div>规则差距 <b>'+Number(r.ruleGap).toFixed(3)+'</b></div><div>兼容度 <b>'+r.compatibility+'%</b></div><div>转换能量 <b>'+r.cost+'</b></div><div>锚点稳定度 <b>'+r.anchor+'%</b></div><div>时间压力 <b>'+r.temporal+'%</b></div></div>'+
+   '<p>🧬 '+r.form+'</p><p>🔐 '+r.reason+'</p>';
+   if(el("storageStatus"))el("storageStatus").textContent=r.success?"✓ 世界之门转换模拟完成":"⚠ 世界之门无法完成转换";
+   addHistory((r.success?"世界之门开启：":"世界之门失败：")+a.name+" → "+b.name,r.success?"GATE":"WARNING",r.success?"INFO":"WARNING",{source:a.id,target:b.id,compatibility:r.compatibility,cost:r.cost});
+ }catch(e){
+   console.error("World Gate error:",e);
+   out.innerHTML='<div class="gate-status failed">🔴 世界之门发生错误：'+(e.message||e)+'</div>';
+ }
 }
 function renderHistory(){
  var log=el("historyLog");if(!log)return;
@@ -114,4 +126,5 @@ function boot(){
 }
 window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-d4";
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+document.addEventListener("DOMContentLoaded",function(){var b=el("gateBtn");if(b)b.onclick=function(){openGate();};});
 })();
