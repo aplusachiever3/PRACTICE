@@ -1,5 +1,5 @@
 /* Persistent World Engine V21.1 */
-const PersistentEngine={
+const PersistentEngine={\n  liveTickMode:true,
   TICK_MS:3000,
   MAX_OFFLINE_TICKS:5000,
   init(worlds){
