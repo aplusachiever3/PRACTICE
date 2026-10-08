@@ -173,7 +173,8 @@ async function boot(){
    setTimeout(function(){ if(!machineRunning) toggleEngine(); },1200);
  }catch(e){console.error(e);render();selectWorld("W1");initGate();updateDashboard();}
 }
-window.showWorldEvent=showWorldEvent;window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-v21-persistent";
+window.showWorldEvent=showWorldEvent;window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-v22-engine-global";
+window.__ENGINE_READY=true;
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 document.addEventListener("DOMContentLoaded",function(){var b=el("gateBtn");if(b)b.onclick=function(){openGate();};});
 })();
