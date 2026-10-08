@@ -1,0 +1,3 @@
+const RuntimeEngine={
+ tick(worlds){return worlds.map(w=>{const stability=RuleEngine.stability(w.rules);const delta=(w.ai/100)*1.2+(w.finance/100)*.8+(w.gate/100)*.5;w.energy=Math.round(Math.max(0,Math.min(100,w.energy+delta-(100-stability)/120)));w.ai=Math.round(Math.max(0,Math.min(100,w.ai+(stability>80?.4:-.2))));w.finance=Math.round(Math.max(0,Math.min(100,w.finance+(w.gate>70?.35:-.15))));if(w.ai>=85&&w.civ.match(/^C[0-9]+$/)){const n=Math.min(9,Number(w.civ.slice(1))+1);if(n>Number(w.civ.slice(1)))w.civ='C'+n}return w})}
+};
