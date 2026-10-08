@@ -121,14 +121,24 @@ function exportWorlds(){WorldStorage.export(worlds);if(el("storageStatus"))el("s
 function importWorlds(){if(el("worldImport"))el("worldImport").click();}
 async function handleWorldImport(file){try{var incoming=await WorldStorage.importFile(file);await WorldStorage.replace(incoming);worlds.splice(0,worlds.length);incoming.forEach(function(w){worlds.push(w);});render();selectWorld(worlds[0].id);initGate();updateDashboard();if(el("storageStatus"))el("storageStatus").textContent="✓ 世界数据已导入";}catch(e){if(el("storageStatus"))el("storageStatus").textContent= "✕ 导入失败："+e.message;}if(el("worldImport"))el("worldImport").value="";}
 async function clearWorldHistory(){await WorldStorage.clearHistory();history=[];renderHistory();if(el("storageStatus"))el("storageStatus").textContent="✓ 世界历史已清除";}
-function boot(){
- Promise.all([WorldStorage.load().catch(function(){return[];}),WorldStorage.loadHistory(200).catch(function(){return[];})]).then(function(data){
+async function boot(){
+ try{
+   var data=await Promise.all([WorldStorage.load().catch(function(){return[];}),WorldStorage.loadHistory(200).catch(function(){return[];})]);
    var saved=data[0]||[];history=data[1]||[];
    saved.forEach(function(w){if(!worlds.some(function(x){return x.id===w.id;}))worlds.push(w);});
-   render();selectWorld(worlds[0].id);initGate();updateDashboard();renderHistory();\n   setTimeout(function(){ if(!machineRunning) toggleEngine(); },1200);
- }).catch(function(e){console.error(e);render();selectWorld("W1");initGate();updateDashboard();});
+   if(typeof PersistentEngine!=="undefined"){
+     var offline=await PersistentEngine.catchUp(worlds);
+     if(offline.ticks>0){
+       addHistory("离线世界时间已推进 "+PersistentEngine.format(offline.elapsedMs)+" · 自动演化 "+offline.ticks+" 个回合","TIME","INFO",{offlineTicks:offline.ticks,elapsedMs:offline.elapsedMs});
+       await WorldStorage.save(worlds);
+     }
+   }
+   render();selectWorld(worlds[0].id);initGate();updateDashboard();renderHistory();
+   if(el("storageStatus"))el("storageStatus").textContent="✓ 世界已恢复 · 世界时间已连续运行";
+   setTimeout(function(){ if(!machineRunning) toggleEngine(); },1200);
+ }catch(e){console.error(e);render();selectWorld("W1");initGate();updateDashboard();}
 }
-window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-v21-autonomous";
+window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-v21-persistent";
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 document.addEventListener("DOMContentLoaded",function(){var b=el("gateBtn");if(b)b.onclick=function(){openGate();};});
 })();
