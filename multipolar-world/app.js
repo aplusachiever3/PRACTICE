@@ -125,10 +125,10 @@ function boot(){
  Promise.all([WorldStorage.load().catch(function(){return[];}),WorldStorage.loadHistory(200).catch(function(){return[];})]).then(function(data){
    var saved=data[0]||[];history=data[1]||[];
    saved.forEach(function(w){if(!worlds.some(function(x){return x.id===w.id;}))worlds.push(w);});
-   render();selectWorld(worlds[0].id);initGate();updateDashboard();renderHistory();
+   render();selectWorld(worlds[0].id);initGate();updateDashboard();renderHistory();\n   setTimeout(function(){ if(!machineRunning) toggleEngine(); },1200);
  }).catch(function(e){console.error(e);render();selectWorld("W1");initGate();updateDashboard();});
 }
-window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-d4";
+window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-v21-autonomous";
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 document.addEventListener("DOMContentLoaded",function(){var b=el("gateBtn");if(b)b.onclick=function(){openGate();};});
 })();
