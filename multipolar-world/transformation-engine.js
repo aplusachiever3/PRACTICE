@@ -1,0 +1,9 @@
+const TransformationEngine={
+ clamp(v){return Math.max(0,Math.min(100,v))},
+ numCoord(v){const m=String(v).match(/-?\d+(?:\.\d+)?/);return m?Number(m[0]):0},
+ distance(a,b){const ax=this.numCoord(a.x),ay=this.numCoord(a.y),az=this.numCoord(a.z),bx=this.numCoord(b.x),by=this.numCoord(b.y),bz=this.numCoord(b.z);return Math.sqrt((ax-bx)**2+(ay-by)**2+(az-bz)**2)},
+ ruleGap(a,b){const safe=x=>Math.max(.001,Number(x)||1);const t=Math.abs(Math.log(safe(a.rules.time_rate)/safe(b.rules.time_rate)));const g=Math.abs((Number(a.rules.gravity)||1)-(Number(b.rules.gravity)||1));const comp=(400-Number(b.rules.energy_stability)-Number(b.rules.matter_stability)-Number(b.rules.biology_compatibility)-Number(b.rules.consciousness_compatibility))/400;return .22*g+.28*t+.50*comp},
+ compatibility(a,b,d,gap){const gate=Math.min(Number(a.gate)||0,Number(b.gate)||0)/100;return Math.round(this.clamp(100-Math.min(100,d*8+gap*35)+gate*10))},
+ cost(a,b,d,gap){return Math.round(10*(1+d)*(1+gap)*(1+(100-Math.min(a.energy,b.energy))/200))},
+ simulate(a,b){const d=this.distance(a,b),gap=this.ruleGap(a,b),compat=this.compatibility(a,b,d,gap),cost=this.cost(a,b,d,gap),temporal=Math.min(100,Math.abs(Math.log(Math.max(.001,a.time)/Math.max(.001,b.time)))*18),anchor=Math.round(this.clamp(100-gap*45-temporal*.4)),success=compat>=55&&anchor>=50&&a.energy>=cost;return {distance:d,ruleGap:gap,compatibility:compat,cost,anchor,temporal,success,status:success?'SUCCESS':'FAILED',form:success?a.name+' → '+b.name+' compatible form':'Transformation rejected',reason:success?'World Anchor locked. Identity continuity preserved.':a.energy<cost?'Insufficient source-world energy.':compat<55?'Rule compatibility below threshold.':'World Anchor stability below threshold.'}}
+};
