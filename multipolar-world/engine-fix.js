@@ -4,6 +4,8 @@
 (function () {
   "use strict";
 
+  window.__ENGINE_FIX_VERSION = "2026-10-08-b4b41cf";
+
   function setUI(running) {
     const state = document.getElementById("engineState");
     const dash = document.getElementById("dashEngine");
