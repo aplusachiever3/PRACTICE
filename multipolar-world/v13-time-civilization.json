@@ -1,0 +1,38 @@
+{
+  "version": "V13",
+  "name": "Time Civilization",
+  "principle": "Time is a resource, not merely a background condition.",
+  "time_ratio": {
+    "formula": "TR_ij = local_time_rate_i / local_time_rate_j"
+  },
+  "systems": [
+    "Time Bank",
+    "Temporal Exchange",
+    "Chrono Gate",
+    "Temporal Reserve",
+    "Time Security"
+  ],
+  "events": [
+    {
+      "id": "T01",
+      "name": "Time Arbitrage",
+      "description": "Use different world time rates to exchange time-intensive production."
+    },
+    {
+      "id": "T02",
+      "name": "Temporal Banking",
+      "description": "Store contractual future/past time rights."
+    },
+    {
+      "id": "T03",
+      "name": "Chrono Gate",
+      "description": "Gate optimized for controlled temporal transfer."
+    },
+    {
+      "id": "T04",
+      "name": "Time War",
+      "description": "Attack an opponent by disrupting temporal synchronization."
+    }
+  ],
+  "civilization_level": "C5"
+}
