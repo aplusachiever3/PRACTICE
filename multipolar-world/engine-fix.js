@@ -1,26 +1,77 @@
-(function(){
-  window.toggleEngine=function(){
-    try{
-      machineRunning=!machineRunning;
-      document.getElementById("engineState").textContent=machineRunning?"RUNNING":"OFFLINE";
-      document.getElementById("dashEngine").textContent=machineRunning?"RUNNING":"OFFLINE";
-      document.getElementById("engineBtn").textContent=machineRunning?"STOP MACHINE ■":"START MACHINE ▶";
-      if(machineRunning){
-        document.getElementById("storageStatus").textContent="▶ Machine starting…";
-        Promise.resolve(runTick()).catch(function(e){
-          machineRunning=false;
-          document.getElementById("engineState").textContent="OFFLINE";
-          document.getElementById("dashEngine").textContent="OFFLINE";
-          document.getElementById("engineBtn").textContent="START MACHINE ▶";
-          document.getElementById("storageStatus").textContent="✕ Engine error: "+(e.message||e);
-          console.error(e);
-        });
-        tickTimer=setInterval(function(){Promise.resolve(runTick()).catch(function(e){console.error(e)})},3000);
-      }else{
-        clearInterval(tickTimer);
-        tickTimer=null;
-        document.getElementById("storageStatus").textContent="■ Machine stopped";
+/* Robust engine bootstrap / click handler
+   Fixes START MACHINE on GitHub Pages and keeps the simulation running
+   even if IndexedDB is unavailable or a non-critical subsystem fails. */
+(function () {
+  "use strict";
+
+  function setUI(running) {
+    const state = document.getElementById("engineState");
+    const dash = document.getElementById("dashEngine");
+    const btn = document.getElementById("engineBtn");
+
+    if (state) state.textContent = running ? "RUNNING" : "OFFLINE";
+    if (dash) dash.textContent = running ? "RUNNING" : "OFFLINE";
+    if (btn) {
+      btn.textContent = running ? "STOP MACHINE ■" : "START MACHINE ▶";
+      btn.disabled = false;
+    }
+  }
+
+  async function safeTick() {
+    try {
+      if (typeof runTick !== "function") {
+        throw new Error("Runtime engine is not loaded.");
       }
-    }catch(e){console.error(e)}
+      await runTick();
+    } catch (error) {
+      console.error("Multipolar World Engine tick error:", error);
+      const status = document.getElementById("storageStatus");
+      if (status) status.textContent = "⚠ Tick warning: " + (error.message || error);
+      // Do not stop the machine because local storage is non-critical.
+    }
+  }
+
+  window.toggleEngine = function () {
+    try {
+      if (typeof machineRunning === "undefined") {
+        throw new Error("Engine state is not initialized.");
+      }
+
+      machineRunning = !machineRunning;
+      setUI(machineRunning);
+
+      if (machineRunning) {
+        const status = document.getElementById("storageStatus");
+        if (status) status.textContent = "▶ Machine running…";
+
+        // Run immediately, then every 3 seconds.
+        safeTick();
+        clearInterval(tickTimer);
+        tickTimer = setInterval(safeTick, 3000);
+      } else {
+        clearInterval(tickTimer);
+        tickTimer = null;
+        const status = document.getElementById("storageStatus");
+        if (status) status.textContent = "■ Machine stopped";
+      }
+    } catch (error) {
+      console.error("Multipolar World Engine start error:", error);
+      machineRunning = false;
+      clearInterval(tickTimer);
+      tickTimer = null;
+      setUI(false);
+
+      const status = document.getElementById("storageStatus");
+      if (status) status.textContent = "✕ Engine error: " + (error.message || error);
+    }
   };
+
+  // Bind directly as a backup to the inline onclick.
+  document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("engineBtn");
+    if (!button) return;
+
+    button.onclick = window.toggleEngine;
+    setUI(false);
+  });
 })();
