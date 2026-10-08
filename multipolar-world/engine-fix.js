@@ -1,9 +1,7 @@
-/* Non-invasive engine bootstrap
-   app.js owns toggleEngine(). This file never overwrites it. */
+/* Engine bridge: supports both classic-script global bindings and window globals. */
 (function () {
   "use strict";
-
-  window.__ENGINE_FIX_VERSION = "2026-10-08-c1";
+  window.__ENGINE_FIX_VERSION = "2026-10-08-d2";
 
   function setUI(running) {
     const state = document.getElementById("engineState");
@@ -21,13 +19,19 @@
     const button = document.getElementById("engineBtn");
     if (!button) return;
 
-    // Use the main toggleEngine() defined by app.js.
     button.onclick = function () {
       try {
-        if (typeof window.toggleEngine !== "function") {
-          throw new Error("toggleEngine is not loaded.");
+        // Do not rely only on window.*: classic scripts may expose a
+        // global lexical binding that is callable directly.
+        if (typeof toggleEngine === "function") {
+          toggleEngine();
+          return;
         }
-        window.toggleEngine();
+        if (typeof window.toggleEngine === "function") {
+          window.toggleEngine();
+          return;
+        }
+        throw new Error("toggleEngine is not available in the page.");
       } catch (error) {
         console.error("Multipolar World Engine start error:", error);
         const status = document.getElementById("storageStatus");
