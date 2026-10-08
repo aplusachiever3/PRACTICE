@@ -4,3 +4,23 @@
 .event-visualizer{position:absolute;top:20px;right:20px;width:min(390px,42%);z-index:10;display:flex;flex-direction:column;gap:8px;pointer-events:none}.event-flash{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border:1px solid #24516d;border-radius:12px;background:rgba(3,10,20,.9);backdrop-filter:blur(12px);box-shadow:0 8px 35px rgba(0,0,0,.35);animation:eventIn .35s ease-out}.event-flash b{font-size:10px;letter-spacing:.15em;color:#7dcff4}.event-flash p{margin:3px 0 0;color:#d7e9f5;font-size:12px;line-height:1.4}.event-icon{font-size:22px;filter:drop-shadow(0 0 8px rgba(120,220,255,.7))}.event-warning{border-color:#9a6b31}.event-critical{border-color:#a43d57;box-shadow:0 0 30px rgba(220,55,90,.18)}.event-fade{opacity:0;transform:translateX(30px);transition:.7s}.cosmos-shock{animation:mapShock .6s ease-out}.event-node-hit{animation:nodeHit 1.7s ease-out!important}@keyframes eventIn{from{opacity:0;transform:translateX(30px) scale(.96)}to{opacity:1;transform:none}}@keyframes mapShock{30%{filter:brightness(1.55)}70%{filter:brightness(.85)}to{filter:none}}@keyframes nodeHit{30%{box-shadow:0 0 80px rgba(255,255,255,.9),0 0 120px rgba(80,210,255,.8);transform:translate(-50%,-50%) scale(1.15)}to{transform:translate(-50%,-50%) scale(1)}}@media(max-width:650px){.event-visualizer{top:10px;right:10px;width:calc(100% - 20px)}}
 
 .cosmos-map.event-war{background-color:rgba(120,10,25,.12)}.cosmos-map.event-alliance{background-color:rgba(20,130,100,.1)}.cosmos-map.event-gate{background-color:rgba(30,130,210,.12)}.cosmos-map.event-civilization{background-color:rgba(150,80,220,.1)}.cosmos-map.event-energy{background-color:rgba(210,110,20,.12)}.event-war{border-color:#e04a68;box-shadow:0 0 35px rgba(224,74,104,.3)}.event-alliance{border-color:#51e0bd;box-shadow:0 0 35px rgba(81,224,189,.25)}.event-gate{border-color:#5bc9ff;box-shadow:0 0 40px rgba(91,201,255,.3)}.event-civilization{border-color:#bd7aff;box-shadow:0 0 40px rgba(189,122,255,.25)}.event-energy{border-color:#ffad4d;box-shadow:0 0 35px rgba(255,173,77,.25)}.event-war-node{border-color:#ff4268!important}.event-alliance-node{border-color:#50e6bd!important}.event-gate-node{border-color:#7ddcff!important}.event-civilization-node{border-color:#c88cff!important}.event-energy-node{border-color:#ffb65b!important}
+
+
+.story-panel{position:relative;overflow:hidden}
+.story-sub{max-width:760px;color:#8eafc4;margin-top:-6px}
+#worldStory{display:flex;flex-direction:column;gap:12px}
+.story-card{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:start;padding:16px 18px;border:1px solid #183d58;border-radius:16px;background:linear-gradient(135deg,rgba(6,18,31,.96),rgba(5,10,20,.88));box-shadow:0 10px 35px rgba(0,0,0,.22);animation:storyIn .45s ease-out}
+.story-card .story-icon{font-size:28px;filter:drop-shadow(0 0 10px rgba(120,220,255,.55))}
+.story-card h3{margin:0;color:#e8f6ff;font-size:16px}
+.story-card p{margin:7px 0 0;color:#b5cedd;line-height:1.55;font-size:13px}
+.story-card .story-time{font-size:10px;color:#64869b;white-space:nowrap}
+.story-card.story-WAR{border-color:#7f3046;box-shadow:0 0 28px rgba(220,55,90,.12)}
+.story-card.story-DIPLOMACY{border-color:#267765;box-shadow:0 0 28px rgba(81,224,189,.1)}
+.story-card.story-CIVILIZATION{border-color:#66408b;box-shadow:0 0 28px rgba(189,122,255,.1)}
+.story-card.story-ECONOMY{border-color:#72562e}
+.story-card.story-GATE{border-color:#286184}
+.story-card.story-TIME{border-color:#3d4d70}
+.story-cause{margin-top:10px;padding-top:9px;border-top:1px solid rgba(120,180,210,.12);font-size:11px;color:#80a7bc}
+.story-cause b{color:#d7edf8}
+@keyframes storyIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:700px){.story-card{grid-template-columns:40px 1fr}.story-card .story-time{grid-column:2}}
