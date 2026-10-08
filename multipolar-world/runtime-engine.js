@@ -22,6 +22,11 @@ const RuntimeEngine={
     });
     const events=[];
     worlds.forEach((w,i)=>events.push(...EventEngine.diff(before[i],w,worlds)));
+    if(worlds.length>1 && (worlds[0].life?.age||0)%10===0){
+      let pair=null,best=Infinity;
+      for(let i=0;i<worlds.length;i++)for(let j=i+1;j<worlds.length;j++){const rel=worlds[i].diplomacy?.relations?.[worlds[j].id]??100;if(rel<best){best=rel;pair=[worlds[i],worlds[j]]}}
+      if(pair && best<70)events.push(EventEngine.make("WAR",best<40?"CRITICAL":"WARNING",best<40?`Armed conflict escalates between ${pair[0].name} and ${pair[1].name}.`:`Military tensions rise between ${pair[0].name} and ${pair[1].name}.`,pair[0].id,{with:pair[1].id,relation:best}));
+    }
     this.lastResult={worlds,events};
     return this.lastResult;
   }
