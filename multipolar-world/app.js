@@ -1,16 +1,1 @@
-const worlds=[
-{id:"W1",name:"Aster",x:"0x",y:"0y",z:"0z",time:1,energy:72,ai:58,finance:64,gate:82,civ:"C3"},
-{id:"W2",name:"Qora",x:"0q",y:"0w",z:"0e",time:10,energy:91,ai:71,finance:48,gate:67,civ:"C4"},
-{id:"W3",name:"Chrona",x:"3t",y:"7t",z:"2t",time:1000,energy:55,ai:96,finance:83,gate:91,civ:"C5"}
-];
-const links=[["W1","W2",76],["W2","W3",88],["W1","W3",42]];
-const el=id=>document.getElementById(id);
-function render(){
- el("worlds").innerHTML=worlds.map(w=>`<button class="world" onclick="selectWorld('${w.id}')"><b>${w.id}</b><span>${w.name}</span><small>Time ×${w.time} · Gate ${w.gate}</small></button>`).join("");
- el("network").innerHTML=links.map(l=>`<div class="link"><b>${l[0]} ↔ ${l[1]}</b><span>Gate bandwidth ${l[2]}</span></div>`).join("");
-}
-function selectWorld(id){
- const w=worlds.find(x=>x.id===id);
- el("detail").innerHTML=`<h2>${w.id} · ${w.name}</h2><p>Coordinates: (${w.x}, ${w.y}, ${w.z})</p><div class="stats"><div>⏳ Time <b>×${w.time}</b></div><div>⚡ Energy <b>${w.energy}</b></div><div>🧠 AI <b>${w.ai}</b></div><div>💰 Finance <b>${w.finance}</b></div><div>🚪 Gate <b>${w.gate}</b></div><div>🏛️ Civilization <b>${w.civ}</b></div></div>`;
-}
-render(); selectWorld("W1");
+const worlds=[{id:"W1",name:"Aster",x:"0x",y:"0y",z:"0z",time:1,energy:72,ai:58,finance:64,gate:82,civ:"C3",rules:{gravity:1,time_rate:1,energy_stability:88,matter_stability:94,biology_compatibility:91,consciousness_compatibility:86}},{id:"W2",name:"Qora",x:"0q",y:"0w",z:"0e",time:10,energy:91,ai:71,finance:48,gate:67,civ:"C4",rules:{gravity:.4,time_rate:10,energy_stability:79,matter_stability:83,biology_compatibility:68,consciousness_compatibility:74}},{id:"W3",name:"Chrona",x:"3t",y:"7t",z:"2t",time:1000,energy:55,ai:96,finance:83,gate:91,civ:"C5",rules:{gravity:2.2,time_rate:1000,energy_stability:72,matter_stability:76,biology_compatibility:61,consciousness_compatibility:93}}];const links=[["W1","W2",76],["W2","W3",88],["W1","W3",42]];const el=id=>document.getElementById(id);function render(){el("worlds").innerHTML=worlds.map(w=>`<button class="world" onclick="selectWorld('${w.id}')"><b>${w.id}</b><span>${w.name}</span><small>Time ×${w.time} · Gate ${w.gate}</small></button>`).join("");el("network").innerHTML=links.map(l=>`<div class="link"><b>${l[0]} ↔ ${l[1]}</b><span>Bandwidth ${l[2]}</span></div>`).join("")}function selectWorld(id){const w=worlds.find(x=>x.id===id);const rs=Math.round((w.rules.energy_stability+w.rules.matter_stability+w.rules.biology_compatibility+w.rules.consciousness_compatibility)/4);el("detail").innerHTML=`<h2>${w.id} · ${w.name}</h2><p>Coordinates: (${w.x}, ${w.y}, ${w.z})</p><div class="stats"><div>⏳ Time <b>×${w.time}</b></div><div>⚡ Energy <b>${w.energy}</b></div><div>🧠 AI <b>${w.ai}</b></div><div>💰 Finance <b>${w.finance}</b></div><div>🚪 Gate <b>${w.gate}</b></div><div>🏛️ Civilization <b>${w.civ}</b></div></div><h3>⚙️ World Rules</h3><div class="stats"><div>Gravity <b>${w.rules.gravity}</b></div><div>Time Rate <b>×${w.rules.time_rate}</b></div><div>Energy Stability <b>${w.rules.energy_stability}%</b></div><div>Matter Stability <b>${w.rules.matter_stability}%</b></div><div>Biology Compatibility <b>${w.rules.biology_compatibility}%</b></div><div>Consciousness Compatibility <b>${w.rules.consciousness_compatibility}%</b></div></div><p>🛡️ Rule Stability: <b>${rs}%</b> · Risk: <b>${rs>=85?"LOW":rs>=65?"MEDIUM":"HIGH"}</b></p>`;}render();selectWorld("W1");
