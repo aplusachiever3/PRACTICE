@@ -15,7 +15,7 @@ const EventEngine={
       if(inf>=.2)push("ECONOMY","WARNING",`Inflation pressure rising in ${after.name} (${after.economy.inflation}%).`,after,{inflation:after.economy.inflation});
       if(tb>=2)push("ECONOMY","INFO",`${after.name} records a stronger trade surplus (+${tb}).`,after,{tradeBalance:after.economy.trade_balance});
       if(tb<=-2)push("ECONOMY","WARNING",`${after.name} enters a deeper trade deficit (${after.economy.trade_balance}).`,after,{tradeBalance:after.economy.trade_balance});
-      if(after.energy<25)push("ECONOMY","CRITICAL",`Energy crisis in ${after.name}: reserves are critically low.`,after,{energy:after.energy});
+      if(after.energy<25)push("ENERGY","CRITICAL",`能源危机：${after.name} 的储备跌至 ${Math.round(after.energy)}，系统进入危险区。`,after,{energy:after.energy});
     }
     const oldRel=before.diplomacy?.relations||{}, newRel=after.diplomacy?.relations||{};
     for(const o of worlds){
