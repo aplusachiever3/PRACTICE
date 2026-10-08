@@ -108,7 +108,7 @@ async function runTick(){
  if(result.events&&result.events.length)result.events.forEach(function(e){addHistory(e.text,e.type,e.severity,e.meta);});
  else addHistory( "回合 "+ticks+" · "+w.id+" "+w.name+" 已演化 · 无重大事件","WORLD","INFO");
  updateDashboard();
- if(el("liveLog")){el("liveLog").innerHTML="<div>⏱ Tick "+ticks+" · "+w.id+" "+w.name+" evolved · Energy "+w.energy+ · 人工智能 "+w.ai+ · 金融 "+w.finance+" · "+w.civ+"</div>"+el("liveLog").innerHTML;while(el("liveLog").children.length>8)el("liveLog").removeChild(el("liveLog").lastChild);}
+ if(el("liveLog")){el("liveLog").innerHTML="<div>⏱ Tick "+ticks+" · "+w.id+" "+w.name+" evolved · 能量 "+w.energy+" · 人工智能 "+w.ai+ · 金融 "+w.finance+" · "+w.civ+"</div>"+el("liveLog").innerHTML;while(el("liveLog").children.length>8)el("liveLog").removeChild(el("liveLog").lastChild);}
  initGate();await WorldStorage.save(worlds);
  if(el("storageStatus"))el("storageStatus").textContent= "✓ 已自动保存 · 回合 "+ticks;
 }
