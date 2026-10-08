@@ -135,8 +135,7 @@ async function runTick(){
  var w=worlds[Math.floor(Math.random()*worlds.length)];
  events+=(result.events||[]).length;
  if(el("eventCount"))el("eventCount").textContent=events;
- if(result.events&&result.events.length)result.events.forEach(function(e){addHistory(e.text,e.type,e.severity,e.meta);showWorldEvent(e);if(window.WorldStoryEngine)WorldStoryEngine.add(e);});
- else var quiet={ts:Date.now(),type:"WORLD",severity:"INFO",text:"回合 "+ticks+" · "+w.id+" "+w.name+" 已演化 · 无重大事件",meta:{}}; addHistory(quiet.text,quiet.type,quiet.severity,quiet.meta); showWorldEvent(quiet); if(window.WorldStoryEngine)WorldStoryEngine.add(quiet);
+ if(result.events&&result.events.length){result.events.forEach(function(e){if(!e)return;addHistory(e.text||"世界发生变化",e.type||"WORLD",e.severity||"INFO",e.meta||{});showWorldEvent(e);if(window.WorldStoryEngine)WorldStoryEngine.add(e);});}else{var quiet={ts:Date.now(),type:"WORLD",severity:"INFO",text:"回合 "+ticks+" · "+w.id+" "+w.name+" 已演化 · 无重大事件",meta:{}};addHistory(quiet.text,quiet.type,quiet.severity,quiet.meta);showWorldEvent(quiet);if(window.WorldStoryEngine)WorldStoryEngine.add(quiet);}
  updateDashboard();
  if(el("liveLog")){
    var line="<div>⏱ 回合 "+ticks+" · "+w.id+" "+w.name+" 已演化 · 能量 "+w.energy+" · 人工智能 "+w.ai+" · 金融 "+w.finance+" · "+w.civ+"</div>";
