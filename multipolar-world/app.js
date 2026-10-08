@@ -38,23 +38,17 @@ function render(){
  if(el("network"))el("network").innerHTML=links.map(function(l){return '<div class="link"><b>'+l[0]+' ↔ '+l[1]+'</b><span>带宽 '+l[2]+'</span></div>';}).join("");
 }
 function showWorldEvent(e){
- var box=el("eventVisualizer"); if(!box)return;
- var type=(e&&e.type)||"WORLD", sev=(e&&e.severity)||"INFO", text=(e&&e.text)||"世界发生变化";
- var icon=type==="GATE"?"⚡":type==="WAR"?"⚔":type==="DIPLOMACY"?"🤝":type==="TIME"?"⏳":type==="ECONOMY"?"📈":type==="CIVILIZATION"?"🧬":"✦";
- var item=document.createElement("div");
- item.className="event-flash event-"+String(sev).toLowerCase();
- item.innerHTML='<span class="event-icon">'+icon+'</span><div><b>'+type+'</b><p>'+text+'</p></div>';
- box.prepend(item);
- while(box.children.length>4)box.removeChild(box.lastChild);
- setTimeout(function(){item.classList.add("event-fade");},3600);
- var map=el("cosmosMap");
- if(map){
-   map.classList.remove("cosmos-shock");void map.offsetWidth;map.classList.add("cosmos-shock");
- }
- if(e&&e.meta&&e.meta.source&&e.meta.target){
-   var nodes=map?map.querySelectorAll(".cosmos-world"):null;
-   if(nodes)Array.prototype.forEach.call(nodes,function(n){var onclick=n.getAttribute("onclick")||"";if(onclick.indexOf(e.meta.source)>=0||onclick.indexOf(e.meta.target)>=0){n.classList.add("event-node-hit");setTimeout(function(){n.classList.remove("event-node-hit");},1800);}});
- }
+ var box=el("eventVisualizer");if(!box)return;
+ var type=(e&&e.type)||"WORLD",sev=(e&&e.severity)||"INFO",text=(e&&e.text)||"世界发生变化";
+ var icon=type==="GATE"?"⚡":type==="WAR"?"⚔️":type==="DIPLOMACY"?"🤝":type==="CIVILIZATION"?"🧬":type==="ENERGY"?"🔋":type==="ECONOMY"?"📈":type==="TIME"?"⏳":"✦";
+ var cls=type==="WAR"?"event-war":type==="DIPLOMACY"?"event-alliance":type==="GATE"?"event-gate":type==="CIVILIZATION"?"event-civilization":type==="ENERGY"?"event-energy":"event-world";
+ var item=document.createElement("div");item.className="event-flash "+cls+" event-"+String(sev).toLowerCase();
+ item.innerHTML='<span class="event-icon">'+icon+'</span><div><b>'+({WAR:"战争",DIPLOMACY:"联盟 / 外交",GATE:"WORLD GATE",CIVILIZATION:"文明跃迁",ENERGY:"能源危机",ECONOMY:"经济"}[type]||"世界事件")+'</b><p>'+text+'</p></div>';
+ box.prepend(item);while(box.children.length>4)box.removeChild(box.lastChild);setTimeout(function(){item.classList.add("event-fade");},4200);
+ var map=el("cosmosMap");if(map){map.classList.remove("cosmos-shock");void map.offsetWidth;map.classList.add("cosmos-shock");map.classList.add(cls);setTimeout(function(){map.classList.remove(cls);},1800);}
+ var source=e&&e.meta&&(e.meta.source||e.meta.world||e.meta.from),target=e&&e.meta&&(e.meta.target||e.meta.with||e.meta.to);
+ var nodes=map?map.querySelectorAll(".cosmos-world"):null;
+ if(nodes)Array.prototype.forEach.call(nodes,function(n){var onclick=n.getAttribute("onclick")||"";if((source&&onclick.indexOf(source)>=0)||(target&&onclick.indexOf(target)>=0)){n.classList.add("event-node-hit");n.classList.add(cls+"-node");setTimeout(function(){n.classList.remove("event-node-hit");n.classList.remove(cls+"-node");},1800);}});
 }
 function renderCosmos(){
  var box=el("cosmosMap"); if(!box)return;
