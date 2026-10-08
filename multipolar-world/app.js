@@ -37,6 +37,25 @@ function render(){
  }).join("");
  if(el("network"))el("network").innerHTML=links.map(function(l){return '<div class="link"><b>'+l[0]+' ↔ '+l[1]+'</b><span>带宽 '+l[2]+'</span></div>';}).join("");
 }
+function showWorldEvent(e){
+ var box=el("eventVisualizer"); if(!box)return;
+ var type=(e&&e.type)||"WORLD", sev=(e&&e.severity)||"INFO", text=(e&&e.text)||"世界发生变化";
+ var icon=type==="GATE"?"⚡":type==="WAR"?"⚔":type==="DIPLOMACY"?"🤝":type==="TIME"?"⏳":type==="ECONOMY"?"📈":type==="CIVILIZATION"?"🧬":"✦";
+ var item=document.createElement("div");
+ item.className="event-flash event-"+String(sev).toLowerCase();
+ item.innerHTML='<span class="event-icon">'+icon+'</span><div><b>'+type+'</b><p>'+text+'</p></div>';
+ box.prepend(item);
+ while(box.children.length>4)box.removeChild(box.lastChild);
+ setTimeout(function(){item.classList.add("event-fade");},3600);
+ var map=el("cosmosMap");
+ if(map){
+   map.classList.remove("cosmos-shock");void map.offsetWidth;map.classList.add("cosmos-shock");
+ }
+ if(e&&e.meta&&e.meta.source&&e.meta.target){
+   var nodes=map?map.querySelectorAll(".cosmos-world"):null;
+   if(nodes)Array.prototype.forEach.call(nodes,function(n){var onclick=n.getAttribute("onclick")||"";if(onclick.indexOf(e.meta.source)>=0||onclick.indexOf(e.meta.target)>=0){n.classList.add("event-node-hit");setTimeout(function(){n.classList.remove("event-node-hit");},1800);}});
+ }
+}
 function renderCosmos(){
  var box=el("cosmosMap"); if(!box)return;
  var pos={W1:[24,58],W2:[50,30],W3:[76,58]};
@@ -121,8 +140,8 @@ async function runTick(){
  var w=worlds[Math.floor(Math.random()*worlds.length)];
  events+=(result.events||[]).length;
  if(el("eventCount"))el("eventCount").textContent=events;
- if(result.events&&result.events.length)result.events.forEach(function(e){addHistory(e.text,e.type,e.severity,e.meta);});
- else addHistory("回合 "+ticks+" · "+w.id+" "+w.name+" 已演化 · 无重大事件","WORLD","INFO");
+ if(result.events&&result.events.length)result.events.forEach(function(e){addHistory(e.text,e.type,e.severity,e.meta);showWorldEvent(e);});
+ else var quiet={ts:Date.now(),type:"WORLD",severity:"INFO",text:"回合 "+ticks+" · "+w.id+" "+w.name+" 已演化 · 无重大事件",meta:{}}; addHistory(quiet.text,quiet.type,quiet.severity,quiet.meta); showWorldEvent(quiet);
  updateDashboard();
  if(el("liveLog")){
    var line="<div>⏱ 回合 "+ticks+" · "+w.id+" "+w.name+" 已演化 · 能量 "+w.energy+" · 人工智能 "+w.ai+" · 金融 "+w.finance+" · "+w.civ+"</div>";
@@ -154,7 +173,7 @@ async function boot(){
    setTimeout(function(){ if(!machineRunning) toggleEngine(); },1200);
  }catch(e){console.error(e);render();selectWorld("W1");initGate();updateDashboard();}
 }
-window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-v21-persistent";
+window.showWorldEvent=showWorldEvent;window.toggleEngine=toggleEngine;window.runTick=runTick;window.createWorld=createWorld;window.openGate=openGate;window.selectWorld=selectWorld;window.saveWorlds=saveWorlds;window.exportWorlds=exportWorlds;window.importWorlds=importWorlds;window.handleWorldImport=handleWorldImport;window.clearWorldHistory=clearWorldHistory;window.initGate=initGate;window.__MULTIPOLAR_ENGINE_VERSION="2026-10-08-v21-persistent";
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 document.addEventListener("DOMContentLoaded",function(){var b=el("gateBtn");if(b)b.onclick=function(){openGate();};});
 })();
