@@ -55,11 +55,7 @@ function renderCosmos(){
  var box=el("cosmosMap"); if(!box)return;
  var pos={W1:[24,58],W2:[50,30],W3:[76,58]};
  var html='<div class="cosmos-stars"></div>';
- links.forEach(function(l){
-   var a=pos[l[0]]||[20,50],b=pos[l[1]]||[80,50];
-   var rel=l[2], cls=rel>=75?"friendly":rel<50?"tense":"neutral";
-   html+='<div class="cosmos-link '+cls+'" style="left:'+a[0]+'%;top:'+a[1]+'%;width:'+Math.hypot(b[0]-a[0],b[1]-a[1])+'%;transform:rotate('+Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI+'deg)"></div>';
- });
+ worlds.forEach(function(w){(w.activeGates||[]).forEach(function(targetId){if(String(w.id)<String(targetId)){var a=pos[w.id]||[20,50],b=pos[targetId]||[80,50];html+='<div class="cosmos-link gate-active" style="left:'+a[0]+'%;top:'+a[1]+'%;width:'+Math.hypot(b[0]-a[0],b[1]-a[1])+'%;transform:rotate('+Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI+'deg)"></div>';}});});
  worlds.forEach(function(w){
    var p=pos[w.id]||[50,50], stab=Math.round((w.rules.energy_stability+w.rules.matter_stability+w.rules.biology_compatibility+w.rules.consciousness_compatibility)/4);
    var pulse=w.autonomy&&w.autonomy.policy?w.autonomy.policy:"BALANCED";
