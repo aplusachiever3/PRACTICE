@@ -31,6 +31,7 @@ function updateDashboard(){
  if(el("worldBars"))el("worldBars").innerHTML=worlds.map(function(w){return '<div class="bar-row"><span>'+w.id+' · '+w.name+'</span><i><em style="width:'+w.life.technology+'%"></em></i><b>'+Math.round(w.life.technology)+'%</b></div>';}).join("");
 }
 function render(){
+ renderCosmos();
  worlds.forEach(function(w){LifeEngine.init(w);EconomyEngine.init(w);DiplomacyEngine.init(w);});
  if(el("worlds"))el("worlds").innerHTML=worlds.map(function(w){
    return '<button class="world" onclick="selectWorld(\''+w.id+'\')"><b>'+w.id+'</b><span>'+w.name+'</span><small>时间 ×'+w.time+' · 世界之门 '+w.gate+'</small></button>';
