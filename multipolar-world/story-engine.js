@@ -19,7 +19,7 @@ const WorldStoryEngine={
   var box=document.getElementById("worldStory");if(!box)return;
   var item=document.createElement("article");item.className="story-card story-"+(e.type||"WORLD");
   var time=new Date(e.ts||Date.now()).toLocaleTimeString("zh-SG",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  var w=(typeof worlds!=="undefined"&&worlds.find(function(x){return x.id===e.worldId;}));
+  var w=null;if(typeof worlds!=="undefined"){if(Array.isArray(worlds))w=worlds.find(function(x){return x.id===e.worldId;});else if(worlds&&Array.isArray(worlds.list))w=worlds.list.find(function(x){return x.id===e.worldId;});}
   item.innerHTML='<div class="story-icon">'+this.icon(e.type)+'</div><div><h3>'+this.title(e)+(w?" · "+w.name:"")+'</h3><p>'+e.text+'</p><div class="story-cause"><b>为什么发生？</b> '+this.explain(e)+'</div></div><div class="story-time">'+time+'</div>';
   var empty=box.querySelector(".story-empty");if(empty)box.innerHTML="";
   box.prepend(item);while(box.children.length>5)box.removeChild(box.lastChild);
