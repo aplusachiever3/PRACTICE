@@ -1,0 +1,8 @@
+const WorldStorage={dbName:"MultipolarWorldDB",store:"worlds",version:1,db:null,
+ open(){return new Promise((resolve,reject)=>{const r=indexedDB.open(this.dbName,this.version);r.onupgradeneeded=()=>{const db=r.result;if(!db.objectStoreNames.contains(this.store))db.createObjectStore(this.store,{keyPath:"id"})};r.onsuccess=()=>{this.db=r.result;resolve(this.db)};r.onerror=()=>reject(r.error)})},
+ async save(list){const db=this.db||await this.open();return new Promise((resolve,reject)=>{const tx=db.transaction(this.store,"readwrite"),s=tx.objectStore(this.store);for(const w of list.filter(w=>!w.__base))s.put(structuredClone(w));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})},
+ async load(){const db=this.db||await this.open();return new Promise((resolve,reject)=>{const r=db.transaction(this.store,"readonly").objectStore(this.store).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})},
+ async replace(list){const db=this.db||await this.open();return new Promise((resolve,reject)=>{const tx=db.transaction(this.store,"readwrite"),s=tx.objectStore(this.store);s.clear();for(const w of list)s.put(structuredClone(w));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})},
+ export(list){const data={format:"multipolar-world",version:1,exported_at:new Date().toISOString(),worlds:list.filter(w=>!w.__base)};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="multipolar-world-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)},
+ async importFile(file){const data=JSON.parse(await file.text());if(!data||!Array.isArray(data.worlds))throw new Error("Invalid World backup");return data.worlds}
+};
