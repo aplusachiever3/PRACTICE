@@ -31,9 +31,9 @@
           window.toggleEngine();
           return;
         }
-        throw new Error("toggleEngine is not available in the page.");
+        throw new Error("页面中没有找到启动函数 toggleEngine。");
       } catch (error) {
-        console.error("Multipolar World Engine start error:", error);
+        console.error("多极世界模拟器启动错误：", error);
         const status = document.getElementById("storageStatus");
         if (status) status.textContent = "✕ Engine error: " + (error.message || error);
         setUI(false);
