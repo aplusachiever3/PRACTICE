@@ -1,0 +1,56 @@
+{
+  "project": "Multipolar World",
+  "version": "V12",
+  "origin": "O=(0,0,0)",
+  "laws": [
+    "Every world has its own rules.",
+    "Cross-world entry requires transformation.",
+    "Identity continuity requires an anchor."
+  ],
+  "worlds": [
+    {
+      "id": "W1",
+      "coordinate": [
+        "0x",
+        "0y",
+        "0z"
+      ],
+      "role": "World"
+    },
+    {
+      "id": "W2",
+      "coordinate": [
+        "0q",
+        "0w",
+        "0e"
+      ],
+      "role": "World"
+    }
+  ],
+  "systems": [
+    "World Gate",
+    "Transformation",
+    "World Anchor",
+    "Time",
+    "Causality",
+    "Inter-world Economy",
+    "Finance",
+    "Security",
+    "Identity",
+    "World-State",
+    "Multi-World Civilization"
+  ],
+  "civilization_scale": {
+    "C0": "Primitive",
+    "C1": "Planetary",
+    "C2": "World",
+    "C3": "Multi-World",
+    "C4": "Gate Civilization",
+    "C5": "Time Civilization",
+    "C6": "Rule Civilization",
+    "C7": "Consciousness Civilization",
+    "C8": "Universe Civilization",
+    "CΩ": "Origin Civilization"
+  },
+  "next": "V13 Time Civilization"
+}
