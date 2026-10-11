@@ -36,3 +36,34 @@ jobs:
           test -n "$(find mobile/www/assets -maxdepth 1 -type f -name '*.js' -print -quit)"
           grep -q 'suibiji_machine_v1_notes' index.html
           grep -q 'NativeShareBridge' index.html
+
+  build-android-debug-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install mobile dependencies
+        working-directory: mobile
+        run: npm install
+      - name: Build mobile web assets
+        working-directory: mobile
+        run: npm run build
+      - name: Generate Android project
+        working-directory: mobile
+        run: npx cap add android
+      - name: Sync Capacitor plugins and web assets
+        working-directory: mobile
+        run: npx cap sync android
+      - name: Build Android debug APK
+        working-directory: mobile/android
+        run: ./gradlew assembleDebug
+      - name: Upload test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: suibiji-android-debug-apk
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
