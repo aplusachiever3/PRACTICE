@@ -11,13 +11,13 @@ if (Capacitor.isNativePlatform()) {
       for (let i = 0; i < attachments.length; i += 1) {
         const attachment = attachments[i];
         if (!attachment || typeof attachment.data !== 'string') continue;
-        const match = attachment.data.match(/^data:(image\\/[a-zA-Z0-9.+-]+);base64,(.+)$/s);
+        const match = attachment.data.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/s);
         if (!match) continue;
         const mime = match[1].toLowerCase();
         const extension = mime.includes('png') ? 'png' : mime.includes('webp') ? 'webp' : mime.includes('gif') ? 'gif' : 'jpg';
-        const safeName = String(attachment.name || `photo-${i + 1}`).replace(/[^\\w.-]/g, '_').replace(/\\.[^.]+$/, '');
+        const safeName = String(attachment.name || ('photo-' + (i + 1))).replace(/[^\w.-]/g, '_').replace(/\.[^.]+$/, '');
         const saved = await Filesystem.writeFile({
-          path: `suibiji-share-${Date.now()}-${i}-${safeName}.${extension}`,
+          path: 'suibiji-share-' + Date.now() + '-' + i + '-' + safeName + '.' + extension,
           data: match[2],
           directory: Directory.Cache,
           recursive: true
