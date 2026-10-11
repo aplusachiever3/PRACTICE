@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.aplusachiever.suibiji',
-  appName: '随笔记智能机器',
+  appName: 'Aplus 随笔记',
   webDir: 'www',
   bundledWebRuntime: false,
   ios: { contentInset: 'automatic' },
