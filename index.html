@@ -171,6 +171,7 @@
 </div>
 </div>
 <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+<div id="cameraModal" class="camera-modal hidden" style="display:none" role="dialog" aria-modal="true" aria-label="直接拍照"><div class="camera-panel"><div class="note-top"><strong>📷 直接拍照</strong><button type="button" class="soft" id="closeCameraBtn">关闭</button></div><div class="camera-video-wrap"><video id="cameraVideo" autoplay playsinline muted></video></div><div id="cameraStatus" class="camera-status">正在准备相机……</div><div class="camera-actions"><button type="button" class="soft" id="switchCameraBtn">切换前后摄像头</button><button type="button" class="primary" id="captureCameraBtn">拍照并添加</button></div></div></div>
 <script>
 (function(){
 'use strict';
@@ -227,5 +228,5 @@ $('captureBtn').addEventListener('click',()=>makeNote($('quickText').value));$('
 load();render();updateHint();checkDueNotifications();let taskCenterDay=today();setInterval(()=>{const day=today();if(day!==taskCenterDay){taskCenterDay=day;calendarSelectedDate=day;calendarCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);render()}checkDueNotifications()},60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){renderTaskCenter();renderCalendar();checkDueNotifications()}});
 })();
 </script>
-<div id="cameraModal" class="camera-modal hidden" style="display:none" role="dialog" aria-modal="true" aria-label="直接拍照"><div class="camera-panel"><div class="note-top"><strong>📷 直接拍照</strong><button type="button" class="soft" id="closeCameraBtn">关闭</button></div><div class="camera-video-wrap"><video id="cameraVideo" autoplay playsinline muted></video></div><div id="cameraStatus" class="camera-status">正在准备相机……</div><div class="camera-actions"><button type="button" class="soft" id="switchCameraBtn">切换前后摄像头</button><button type="button" class="primary" id="captureCameraBtn">拍照并添加</button></div></div></div>\n</body>
+\n</body>
 </html>
