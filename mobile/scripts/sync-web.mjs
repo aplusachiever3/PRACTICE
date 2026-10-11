@@ -8,7 +8,7 @@ const source = path.resolve(mobileRoot, '..', 'index.html');
 const destinationDir = path.join(mobileRoot, 'src');
 const destination = path.join(destinationDir, 'index.html');
 let html = await readFile(source, 'utf8');
-const moduleScript = '<script type="module" src="/native-share-bridge.js"></script>\n';
+const moduleScript = '<script type="module" src="./native-share-bridge.js"></script>\n';
 if (!html.includes('native-share-bridge.js')) {
   if (!html.includes('</body>')) throw new Error('index.html is missing </body>');
   html = html.replace('</body>', moduleScript + '</body>');
