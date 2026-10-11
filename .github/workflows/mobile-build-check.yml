@@ -1,5 +1,8 @@
 name: Mobile app build check
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [main]
@@ -66,9 +69,23 @@ jobs:
       - name: Build Android debug APK
         working-directory: mobile/android
         run: ./gradlew assembleDebug
-      - name: Upload test APK
+      - name: Prepare direct-download APK
+        run: cp mobile/android/app/build/outputs/apk/debug/app-debug.apk Aplus-Suibiji.apk
+      - name: Upload APK artifact for build records
         uses: actions/upload-artifact@v4
         with:
           name: suibiji-android-debug-apk
-          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          path: Aplus-Suibiji.apk
           if-no-files-found: error
+      - name: Publish latest APK download
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: mobile-latest
+          name: Aplus 随笔记 Android App（最新版）
+          body: 自动构建的 Android APK。点击资产 Aplus-Suibiji.apk 下载并安装。此为 Android 安装包；iPhone 不能安装 APK。
+          files: Aplus-Suibiji.apk
+          overwrite_files: true
+          make_latest: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
