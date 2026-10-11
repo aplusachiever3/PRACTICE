@@ -58,6 +58,10 @@ jobs:
       - name: Generate Android project
         working-directory: mobile
         run: npx cap add android
+      - name: Generate green Aplus launcher icons
+        run: |
+          python -m pip install --user Pillow
+          python mobile/scripts/generate_android_icon.py
       - name: Sync Capacitor plugins and web assets
         working-directory: mobile
         run: npx cap sync android
