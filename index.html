@@ -111,6 +111,12 @@
  <div class="privacy">● 仅保存在本机<small>数据不会上传到 GitHub。请偶尔导出备份；换设备时可手动导入。</small></div>
 </aside>
 <main class="main">
+ <section class="panel capture">
+  <div class="capture-top"><h3>＋ 快速记录</h3><button id="advancedBtn" class="soft">详细编辑</button></div>
+  <textarea id="quickText" placeholder="例如：明天给老师发课程安排；想到一个新项目；今天学会了什么……"></textarea>
+  <div class="capture-bottom"><span class="suggest" id="categoryHint">自动建议分类：随笔</span><button class="primary" id="captureBtn">收下这条记录</button></div>
+ </section>
+
  <section class="hero">
   <h2>想到什么，先记下来。</h2><p>不用先想好分类。机器会在本机按关键词建议分类、识别日期，并整理标签。</p>
   <div class="stats"><div class="stat"><b id="totalStat">0</b><span>条记录</span></div><div class="stat"><b id="todoStat">0</b><span>待办未完成</span></div><div class="stat"><b id="todayStat">0</b><span>今天新增</span></div></div>
@@ -137,11 +143,6 @@
  </section>
  <section class="panel v23-panel" id="dataSafetyPanel">
   <div class="section-head"><h3>🛡️ 数据安全中心</h3><span>本机数据</span></div><div class="safety-stats"><div><b id="safetyRecords">0</b><span>条记录</span></div><div><b id="safetyTodos">0</b><span>未完成待办</span></div><div><b id="safetyImportant">0</b><span>重要记录</span></div></div><p id="backupStatus" class="v23-help">备份状态尚未检查。</p><div class="task-controls"><button type="button" class="soft" id="checkDataBtn">检查本机数据</button><button type="button" id="safetyExportBtn">立即导出备份</button></div><div id="dataCheckResult" class="review-box hidden" role="status"></div>
- </section>
- <section class="panel capture">
-  <div class="capture-top"><h3>＋ 快速记录</h3><button id="advancedBtn" class="soft">详细编辑</button></div>
-  <textarea id="quickText" placeholder="例如：明天给老师发课程安排；想到一个新项目；今天学会了什么……"></textarea>
-  <div class="capture-bottom"><span class="suggest" id="categoryHint">自动建议分类：随笔</span><button class="primary" id="captureBtn">收下这条记录</button></div>
  </section>
  <section class="panel editor hidden" id="editor">
   <div class="capture-top"><h3 id="editorHeading">详细编辑</h3><button id="closeEditorBtn">收起</button></div>
