@@ -98,14 +98,19 @@
 
  .camera-modal{position:fixed;inset:0;z-index:100000;background:#080b16ed;display:flex;align-items:center;justify-content:center;padding:16px}.camera-modal.hidden{display:none!important}.camera-panel{width:min(680px,100%);background:var(--card,#fff);color:var(--text,#222);border-radius:18px;padding:16px;box-shadow:0 20px 80px #0008}.camera-video-wrap{background:#090909;border-radius:12px;overflow:hidden;min-height:220px;display:flex;align-items:center;justify-content:center;margin:12px 0}.camera-video-wrap video{width:100%;max-height:65vh;object-fit:contain;display:block}.camera-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}.camera-status{font-size:13px;color:var(--muted);margin:8px 0}@media(max-width:600px){.camera-panel{padding:12px}.camera-video-wrap{min-height:180px}}
 .install-app-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:10px 14px;border:1px solid #17335b;border-radius:12px;background:#17335b;color:#fff;text-decoration:none;font-weight:750;white-space:nowrap;box-shadow:0 4px 12px #17335b24}.install-app-btn:hover{background:#244a7a;border-color:#244a7a}.install-app-btn:focus-visible{outline:3px solid #17335b55;outline-offset:2px}@media(max-width:760px){.install-app-btn{flex:1 1 100%;min-height:44px}}
+
+/* Floating Android app installer: fixed to the bottom-left on desktop and mobile */
+.install-app-float{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:calc(16px + env(safe-area-inset-bottom));z-index:99990;flex:0 0 auto;width:auto;max-width:calc(100vw - 32px);min-height:46px;padding:11px 16px;border-radius:999px;box-shadow:0 8px 24px #17335b38}
+@media(max-width:760px){.install-app-btn.install-app-float{position:fixed;left:max(12px,env(safe-area-inset-left));bottom:calc(12px + env(safe-area-inset-bottom));width:auto;max-width:calc(100vw - 24px);min-height:46px;flex:0 0 auto;padding:11px 15px}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="header">
  <div class="brand"><div class="brand-mark" aria-label="Aplus"><span class="brand-wordmark">Aplus</span></div><div class="brand-copy"><h1> 随笔记</h1><p>生活 · 学习 · 工作，一处记录，随时找回</p></div></div>
- <div class="actions"><button id="exportBtn">导出备份</button><button id="importBtn">导入备份</button><input id="importFile" class="hidden" type="file" accept="application/json,.json"><a id="installAppBtn" class="install-app-btn" href="https://github.com/aplusachiever3/PRACTICE/releases/download/mobile-latest/Aplus-Suibiji.apk" title="直接下载 Android App 安装包 APK">⬇ 下载安装 App</a></div>
+ <div class="actions"><button id="exportBtn">导出备份</button><button id="importBtn">导入备份</button><input id="importFile" class="hidden" type="file" accept="application/json,.json"></div>
 </header>
+<a id="installAppBtn" class="install-app-btn install-app-float" href="https://github.com/aplusachiever3/PRACTICE/releases/download/mobile-latest/Aplus-Suibiji.apk" title="直接下载 Android App 安装包 APK" aria-label="下载安装 Aplus 随笔记 Android App">⬇ 下载安装 App</a>
 <div class="layout">
 
 <main class="main">
