@@ -170,8 +170,8 @@
 (function(){
 'use strict';
 const KEY='suibiji_machine_v1_notes';
-let notes=[],activeFilter='all',editingId=null,editorStarred=false,toastTimer=null,calendarCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate=today(),smartDrafts=[];
 const $=id=>document.getElementById(id),now=()=>new Date().toISOString(),today=()=>new Date().toISOString().slice(0,10);
+let notes=[],activeFilter='all',editingId=null,editorStarred=false,toastTimer=null,calendarCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate=today(),smartDrafts=[];
 const makeId=()=>Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
 function notify(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add('hidden'),2400)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
