@@ -1,0 +1,25 @@
+{
+  "name": "suibiji-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "description": "随笔记智能机器 Android/iOS wrapper",
+  "type": "module",
+  "scripts": {
+    "sync:web": "node scripts/sync-web.mjs",
+    "build": "npm run sync:web && vite build",
+    "cap:sync": "npm run build && cap sync",
+    "android": "npm run cap:sync && cap open android",
+    "ios": "npm run cap:sync && cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/filesystem": "^7.4.3",
+    "@capacitor/ios": "^7.4.3",
+    "@capacitor/share": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "vite": "^6.3.5"
+  }
+}
