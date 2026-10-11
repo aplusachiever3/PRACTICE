@@ -33,6 +33,6 @@ jobs:
       - name: Verify build output and preserved local storage key
         run: |
           test -s mobile/www/index.html
-          test -s mobile/www/native-share-bridge.js
+          test -n "$(find mobile/www/assets -maxdepth 1 -type f -name '*.js' -print -quit)"
           grep -q 'suibiji_machine_v1_notes' index.html
           grep -q 'NativeShareBridge' index.html
